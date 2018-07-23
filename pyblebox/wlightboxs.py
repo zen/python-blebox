@@ -1,15 +1,22 @@
-"""
+#!/usr/bin/env python
+
+"""Main control file for wLightBoxS LED controller.
+
 Copyright (c) 2018 Tomasz 'Zen' Napierala <tomasz@napierala.org>
 
 Licensed under Apache 2 licence. All rights reserved.
 """
 
-import time
-
 import requests
 
 from . import exceptions
 from . import config
+
+
+def int_to_hex(value):
+    """Convert integer to two digit hex."""
+    hex = '{0:02x}'.format(int(value))
+    return hex
 
 
 class wLightBoxS(object):
@@ -49,7 +56,8 @@ class wLightBoxS(object):
         """Get the detailed state from the controller."""
         try:
             request = requests.get(
-                '{}/{}/{}'.format(self.resource, wLightBoxSAPIdevice, 'state'), timeout=self.timeout)
+                '{}/{}/{}'.format(self.resource, 'api/device', 'state'),
+                timeout=self.timeout)
             raw_data_json = request.json()
             self.data = raw_data_json[self._mac]
             return self.data
@@ -57,7 +65,7 @@ class wLightBoxS(object):
             raise exceptions.wLightBoxSConnectionError()
 
     def _get_light_current_color(self):
-        """Get current color, which is in fact brightness level in hex"""
+        """Get current color, which is in fact brightness level in hex."""
         self.get_status()
         try:
             self.light_current_color = self.data['light']['currentColor']
@@ -67,7 +75,7 @@ class wLightBoxS(object):
         return self.light_current_color
 
     def get_device_name(self):
-        """Get device name"""
+        """Get device name."""
         self.get_status()
         try:
             self.device_name = self.data(['device']['deviceName'])
@@ -108,24 +116,24 @@ class wLightBoxS(object):
 
         return self.fv
 
-    ## Setting parameters
+    # Setting parameters
     def set_brightness(self, brightness):
-        """Set brightness of the light"""
-
+        """Set brightness of the light."""
         if 0 <= int(brightness) <= 255:
             pass
         else:
             raise ValueError('Brightness %s out of bound' % int(brightness))
 
         try:
-            request = requests.get(self.resource + "/s/" + config.int_to_hex(brightness))
+            request = requests.get(self.resource + "/s/"
+                                   + config.int_to_hex(brightness))
             if request.status_code == 200:
                 pass
         except requests.exceptions.ConnectionError:
             raise exceptions.wLightBoxSConnectionError()
 
     def set_on(self):
-        """Turn the light on with"""
+        """Turn the light on with."""
         self.set_brightness(255)
 
     def set_off(self):

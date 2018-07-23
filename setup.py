@@ -1,4 +1,6 @@
-"""
+#!/usr/bin/env python
+"""Setup file.
+
 Copyright (c) 2018 Tomasz 'Zen' Napierala <tomasz@napierala.org>
 
 Licensed under Apache 2 licence. All rights reserved.
@@ -6,6 +8,7 @@ Licensed under Apache 2 licence. All rights reserved.
 Based on Fabian Affolter's python-mystorm module
 
 """
+
 import os
 
 import sys
@@ -18,12 +21,12 @@ with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 if sys.argv[-1] == 'publish':
-    os.system('python3 setup.py sdist upload')
+    os.system('twine upload dist/*')
     sys.exit()
 
 setup(
     name='python-blebox',
-    version='0.0.2',
+    version='0.0.3',
     description='Python API for interacting with Blebox smart devices',
     long_description=long_description,
     url='https://github.com/zen/python-blebox',
