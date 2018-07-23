@@ -26,7 +26,7 @@ if sys.argv[-1] == 'publish':
 
 setup(
     name='python-blebox',
-    version='0.0.3',
+    version='0.0.4',
     description='Python API for interacting with Blebox smart devices',
     long_description=long_description,
     url='https://github.com/zen/python-blebox',

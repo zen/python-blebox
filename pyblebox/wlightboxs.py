@@ -10,7 +10,6 @@ Licensed under Apache 2 licence. All rights reserved.
 import requests
 
 from . import exceptions
-from . import config
 
 
 def int_to_hex(value):
@@ -126,7 +125,7 @@ class wLightBoxS(object):
 
         try:
             request = requests.get(self.resource + "/s/"
-                                   + config.int_to_hex(brightness))
+                                   + int_to_hex(brightness))
             if request.status_code == 200:
                 pass
         except requests.exceptions.ConnectionError:
