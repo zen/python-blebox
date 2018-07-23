@@ -57,8 +57,7 @@ class wLightBoxS(object):
             request = requests.get(
                 '{}/{}/{}'.format(self.resource, 'api/device', 'state'),
                 timeout=self.timeout)
-            raw_data_json = request.json()
-            self.data = raw_data_json[self._mac]
+            self.data = request.json()
             return self.data
         except (requests.exceptions.ConnectionError, ValueError):
             raise exceptions.wLightBoxSConnectionError()
